@@ -1,0 +1,67 @@
+@import url(//db.onlinewebfonts.com/c/373efd69166d31c2b5052a505527acbf?family=Graphik-Medium);
+
+body {
+  font-family: Graphik-Medium, sans-serif;
+  /* background: linear-gradient(180deg, #797979, #707070); */
+  background: #ebebeb;
+}
+
+.auth-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  text-align: center;
+  color: #333333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333333;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="submit"] {
+  background-color: #555;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+input[type="submit"]:hover {
+  background-color: #777;
+}
+/* 
+.notification {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  display: none;
+} */
