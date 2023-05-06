@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/profile.css" />
+    <script src="/js/profile.js" defer></script>
+    <link
+      rel="shortcut icon"
+      href="https://img.icons8.com/stickers/100/null/kawaii-dinosaur.png"
+      type="image/x-icon"
+    />
+    <title>Profile</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-left"></div>
+        <h1>My Profile</h1>
+        <div class="nav-right">
+          <button id="logoutBtn" onclick="logout()">Logout</button>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section class="profile-info">
+        <h2>Profile Information</h2>
+        <p id="userId">User ID:</p>
+        <p id="userLogin">Login:</p>
+        <p id="userXP">Total XP:</p>
+      </section>
+      <section class="statistics">
+        <h2>Statistics</h2>
+        <div id="graph1"></div>
+        <div id="graph2"></div>
+      </section>
+    </main>
+  </body>
+</html>
