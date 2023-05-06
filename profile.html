@@ -16,7 +16,7 @@
     <header>
       <nav>
         <div class="nav-left"></div>
-        <h1>My Profile</h1>
+        <h1 id="name-profile">Profile</h1>
         <div class="nav-right">
           <button id="logoutBtn" onclick="logout()">Logout</button>
         </div>
@@ -24,10 +24,13 @@
     </header>
     <main>
       <section class="profile-info">
-        <h2>Profile Information</h2>
-        <p id="userId">User ID:</p>
-        <p id="userLogin">Login:</p>
-        <p id="userXP">Total XP:</p>
+        <img alt="User Image" class="user-image" />
+        <h2 id="first-name-last-name">Name</h2>
+        <h3 id="campus">Campus</h3>
+        <p id="from">From</p>
+        <p id="phone">Phone</p>
+        <p id="email">Email</p>
+        <p id="total-xp"></p>
       </section>
       <section class="statistics">
         <h2>Statistics</h2>
