@@ -79,3 +79,18 @@ main {
 .statistics h2 {
   margin-bottom: 1rem;
 }
+
+.profile-info {
+  position: relative;
+}
+
+.user-image {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  width: 25%;
+  /* height: 10%; */
+  border-radius: 5px;
+  object-fit: cover;
+}
