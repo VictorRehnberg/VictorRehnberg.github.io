@@ -94,3 +94,31 @@ main {
   border-radius: 5px;
   object-fit: cover;
 }
+
+.xp-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.xp-up,
+.xp-down,
+.xp-ratio {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.xp-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.xp-value {
+  color: #555;
+}
