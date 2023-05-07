@@ -31,6 +31,9 @@
         <p id="phone">Phone</p>
         <p id="email">Email</p>
         <p id="total-xp">total xp</p>
+      </section>
+      <section class="statistics">
+        <h2>Statistics</h2>
         <div class="xp-widget">
           <div class="xp-container">
             <div class="xp-ratio-display" id="xpRatio"></div>
@@ -43,14 +46,31 @@
               </div>
             </div>
             <div class="xp-visualization">
-              <div class="xp-bar xp-up" id="upXp"></div>
-              <div class="xp-bar xp-down" id="downXp"></div>
+              <svg
+                class="xp-svg"
+                viewBox="0 0 100 20"
+                preserveAspectRatio="none"
+              >
+                <rect
+                  class="xp-bar xp-up"
+                  id="upXp"
+                  x="0"
+                  y="0"
+                  width="50"
+                  height="20"
+                />
+                <rect
+                  class="xp-bar xp-down"
+                  id="downXp"
+                  x="50"
+                  y="0"
+                  width="50"
+                  height="20"
+                />
+              </svg>
             </div>
           </div>
         </div>
-      </section>
-      <section class="statistics">
-        <h2>Statistics</h2>
         <div id="graph1"></div>
         <div id="graph2"></div>
       </section>
