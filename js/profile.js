@@ -79,20 +79,32 @@ async function fetchData() {
   }
 }
 
+// Display the user XP and XP ratio in the DOM and generate the XP graph
 function displayUserXp(xpAmount, upAmount, downAmount) {
-  document.querySelector(".xp-ratio .xp-value").textContent =
-    // remove decimals and round to nearest integer
-    Math.round((upAmount / downAmount) * 10) / 10;
-
+  // Display the user XP
   document.getElementById(
     "total-xp"
   ).textContent = `Total XP: ${convertToByteUnits(xpAmount)}`;
+  // Display the user XP ratio
+  document.getElementById("xpRatio").textContent =
+    "Audit Ratio: " + (upAmount / downAmount).toFixed(2);
+  // Display the user given XP
+  document.getElementById("upXpValue").textContent =
+    "Up XP: " + convertToByteUnits(upAmount);
+  // Display the user received XP
+  document.getElementById("downXpValue").textContent =
+    "Down XP: " + convertToByteUnits(downAmount);
 
-  document.querySelector(".xp-up .xp-value").textContent =
-    convertToByteUnits(upAmount);
+  const totalXP = upAmount + downAmount;
 
-  document.querySelector(".xp-down .xp-value").textContent =
-    convertToByteUnits(downAmount);
+  // Display the user XP graph
+  document.getElementById("upXp").style.width = `${
+    (upAmount / totalXP) * 100
+  }%`;
+  // Display the user XP graph
+  document.getElementById("downXp").style.width = `${
+    (downAmount / totalXP) * 100
+  }%`;
 }
 
 function displayUserInfo(user) {
