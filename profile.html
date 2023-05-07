@@ -30,22 +30,22 @@
         <p id="from">From</p>
         <p id="phone">Phone</p>
         <p id="email">Email</p>
-        <p id="total-xp"></p>
-        <p id="total-up-xp"></p>
-        <p id="total-down-xp"></p>
-        
-        <div class="xp-container">
-          <div class="xp-up">
-            <span class="xp-label">XP up:</span>
-            <span class="xp-value">100</span>
-          </div>
-          <div class="xp-down">
-            <span class="xp-label">XP down:</span>
-            <span class="xp-value">50</span>
-          </div>
-          <div class="xp-ratio">
-            <span class="xp-label">Ratio:</span>
-            <span class="xp-value">2:1</span>
+        <p id="total-xp">total xp</p>
+        <div class="xp-widget">
+          <div class="xp-container">
+            <div class="xp-ratio-display" id="xpRatio"></div>
+            <div class="xp-values-display">
+              <div class="xp-value">
+                <p class="xp-value-label" id="upXpValue">Up XP:</p>
+              </div>
+              <div class="xp-value">
+                <p class="xp-value-label" id="downXpValue">Down XP:</p>
+              </div>
+            </div>
+            <div class="xp-visualization">
+              <div class="xp-bar xp-up" id="upXp"></div>
+              <div class="xp-bar xp-down" id="downXp"></div>
+            </div>
           </div>
         </div>
       </section>
