@@ -96,15 +96,14 @@ function displayUserXp(xpAmount, upAmount, downAmount) {
     "Down XP: " + convertToByteUnits(downAmount);
 
   const totalXP = upAmount + downAmount;
-
-  // Display the user XP graph
-  document.getElementById("upXp").style.width = `${
-    (upAmount / totalXP) * 100
-  }%`;
-  // Display the user XP graph
-  document.getElementById("downXp").style.width = `${
-    (downAmount / totalXP) * 100
-  }%`;
+  const upXp = document.getElementById("upXp");
+  const downXp = document.getElementById("downXp");
+  const upXpWidth = (upAmount / totalXP) * 100;
+  const downXpWidth = (downAmount / totalXP) * 100;
+  upXp.setAttribute("width", upXpWidth);
+  upXp.setAttribute("x", 0);
+  downXp.setAttribute("width", downXpWidth);
+  downXp.setAttribute("x", upXpWidth);
 }
 
 function displayUserInfo(user) {
