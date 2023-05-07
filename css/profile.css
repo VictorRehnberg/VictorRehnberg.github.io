@@ -112,8 +112,6 @@ main {
 }
 
 .xp-visualization {
-  display: flex;
-  justify-content: space-between;
   width: 100%;
   background-color: #f5f5f5;
   border-radius: 5px;
@@ -121,18 +119,21 @@ main {
   padding: 2px;
 }
 
-.xp-bar {
+.xp-svg {
+  width: 100%;
   height: 20px;
-  border-radius: 3px;
+}
+
+.xp-bar {
   transition: width 0.3s;
 }
 
 .xp-up {
-  background-color: #bebebe;
+  fill: #bebebe;
 }
 
 .xp-down {
-  background-color: #7e7e7e;
+  fill: #7e7e7e;
 }
 
 .xp-ratio-display {
