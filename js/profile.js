@@ -11,46 +11,43 @@ async function fetchData() {
   }
 
   const query = `
-    query {
-      user {
-        login
-        attrs
-        campus
-        upAmount: transactions_aggregate(where: {type: {_eq: "up"}}) {
-          aggregate {
-            sum {
-              amount
-            }
-          }
-        }
-        downAmount: transactions_aggregate(where: {type: {_eq: "down"}}) {
-          aggregate {
-            sum {
-              amount
-            }
-          }
-        }
-        xpAmount: transactions_aggregate(
-          where: {
-            type: { _eq: "xp" }
-            _or: [
-              { attrs: { _eq: {} } }
-              { attrs: { _has_key: "group" } }
-            ]
-            _and: [
-              { path: { _nlike: "%/piscine-js/%" } }
-              { path: { _nlike: "%/piscine-go/%" } }
-            ]
-          }
-        ) {
-          aggregate {
-            sum {
-              amount
-            }
-          }
+    {
+  user {
+    login
+    attrs
+    campus
+    level: transactions(
+      where: {type: {_eq: "level"}, path: {_ilike: "%/school-curriculum/%"}}
+      order_by: {amount: desc}
+      limit: 1
+    ) {
+      amount
+    }
+    upAmount: transactions_aggregate(where: {type: {_eq: "up"}}) {
+      aggregate {
+        sum {
+          amount
         }
       }
     }
+    downAmount: transactions_aggregate(where: {type: {_eq: "down"}}) {
+      aggregate {
+        sum {
+          amount
+        }
+      }
+    }
+    xpAmount: transactions_aggregate(
+      where: {type: {_eq: "xp"}, _or: [{attrs: {_eq: {}}}, {attrs: {_has_key: "group"}}], _and: [{path: {_nlike: "%/piscine-js/%"}}, {path: {_nlike: "%/piscine-go/%"}}]}
+    ) {
+      aggregate {
+        sum {
+          amount
+        }
+      }
+    }
+  }
+}
   `;
 
   try {
@@ -76,6 +73,30 @@ async function fetchData() {
     );
   } catch (error) {
     console.error("Error fetching data:", error);
+  }
+}
+
+function displayUserLevel(level) {
+  // if the user is between level 0 -10 return a string containing the level followed by "Aspiring Developer"
+  if (level >= 0 && level < 10) {
+    return `Level ${level} Aspiring Developer`;
+  }
+  if (level >= 10 && level < 20) {
+    return `Level ${level} Beginner Developer`;
+  }
+  if (level >= 20 && level < 30) {
+    return `Level ${level} Apprentice Developer`;
+  }
+  if (level >= 30 && level < 40) {
+    return `Level ${level} Assistant Developer`;
+  }
+  if (level >= 40 && level < 50) {
+    return `Level ${level} Basic Developer`;
+  }
+  if (level >= 50 && level < 60) {
+    return `Level ${level} Junior Developer`;
+  } else {
+    return `Level ${level}`;
   }
 }
 
@@ -124,7 +145,9 @@ function displayUserInfo(user) {
     "first-name-last-name"
   ).textContent = ` ${user.attrs.firstName} ${user.attrs.lastName}`;
   // set the user campus
-  document.getElementById("campus").textContent = ` Student at ${user.campus}`;
+  document.getElementById("campus").textContent = ` ${displayUserLevel(
+    user.level[0].amount
+  )} at ${user.campus}`;
   // set the user age and country
   document.getElementById("from").textContent = `${calculateAge(
     user.attrs.dateOfBirth
