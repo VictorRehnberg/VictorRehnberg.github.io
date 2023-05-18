@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+      .tooltip {
+        position: absolute;
+        text-align: center;
+        padding: 5px;
+        font: 12px sans-serif;
+        background: lightsteelblue;
+        border: 0px;
+        border-radius: 8px;
+        pointer-events: none;
+      }
+      .dot {
+        fill: steelblue;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const data = {
+        data: {
+          user: [
+            {
+              timeline: [
+                {
+                  amount: 34375,
+                  createdAt: "2023-04-04T10:56:14.168751+00:00",
+                  path: "/gritlab/school-curriculum/lem-in",
+                },
+                {
+                  amount: 5000,
+                  createdAt: "2022-09-07T16:50:46.447947+00:00",
+                  path: "/gritlab/school-curriculum/go-reloaded",
+                },
+                {
+                  amount: 100,
+                  createdAt: "2022-09-22T10:01:58.595203+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/displayalrevm",
+                },
+                {
+                  amount: 200,
+                  createdAt: "2022-09-22T10:03:33.668528+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/countdown",
+                },
+                {
+                  amount: 6125,
+                  createdAt: "2022-09-29T16:26:55.142587+00:00",
+                  path: "/gritlab/school-curriculum/ascii-art",
+                },
+                {
+                  amount: 6125,
+                  createdAt: "2022-10-03T10:44:43.388201+00:00",
+                  path: "/gritlab/school-curriculum/output",
+                },
+                {
+                  amount: 6125,
+                  createdAt: "2022-10-03T11:24:23.928278+00:00",
+                  path: "/gritlab/school-curriculum/fs",
+                },
+                {
+                  amount: 70000,
+                  createdAt: "2023-01-30T08:32:17.268497+00:00",
+                  path: "/gritlab/school-curriculum/piscine-js",
+                },
+                {
+                  amount: 9200,
+                  createdAt: "2022-11-16T16:10:52.168946+00:00",
+                  path: "/gritlab/school-curriculum/ascii-art-web",
+                },
+                {
+                  amount: 6125,
+                  createdAt: "2022-10-17T17:39:25.724325+00:00",
+                  path: "/gritlab/school-curriculum/color",
+                },
+                {
+                  amount: 9200,
+                  createdAt: "2022-11-16T16:53:36.429254+00:00",
+                  path: "/gritlab/school-curriculum/stylize",
+                },
+                {
+                  amount: 9200,
+                  createdAt: "2022-11-25T13:27:32.573082+00:00",
+                  path: "/gritlab/school-curriculum/dockerize",
+                },
+                {
+                  amount: 24500,
+                  createdAt: "2022-12-09T12:38:34.268016+00:00",
+                  path: "/gritlab/school-curriculum/groupie-tracker",
+                },
+                {
+                  amount: 12250,
+                  createdAt: "2022-12-16T15:15:51.631782+00:00",
+                  path: "/gritlab/school-curriculum/visualizations",
+                },
+                {
+                  amount: 12250,
+                  createdAt: "2022-12-20T19:41:58.392034+00:00",
+                  path: "/gritlab/school-curriculum/net-cat",
+                },
+                {
+                  amount: 100,
+                  createdAt: "2022-09-08T10:03:41.537351+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/printdigits",
+                },
+                {
+                  amount: 200,
+                  createdAt: "2022-09-08T10:09:39.286782+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/max",
+                },
+                {
+                  amount: 300,
+                  createdAt: "2022-09-08T11:13:01.231732+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/rot13",
+                },
+                {
+                  amount: 400,
+                  createdAt: "2022-09-08T11:27:23.075198+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/alphamirror",
+                },
+                {
+                  amount: 300,
+                  createdAt: "2022-09-22T10:09:40.540012+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/rot13",
+                },
+                {
+                  amount: 400,
+                  createdAt: "2022-09-22T10:11:22.135932+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/compare",
+                },
+                {
+                  amount: 500,
+                  createdAt: "2022-09-22T11:58:16.813304+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/reversebits",
+                },
+                {
+                  amount: 600,
+                  createdAt: "2022-09-22T12:13:35.874935+00:00",
+                  path: "/gritlab/school-curriculum/checkpoint/printhex",
+                },
+              ],
+            },
+          ],
+        },
+      };
+      var parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
+
+      var dataMapped = data.data.user[0].timeline.map((item) => ({
+        time: parseTime(item.createdAt),
+        amount: item.amount,
+        path: item.path,
+      }));
+
+      dataMapped.sort((a, b) => a.time - b.time);
+
+      var width = 1000;
+      var height = 500;
+      var margin = { top: 20, right: 30, bottom: 30, left: 40 };
+
+      var svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      var xScale = d3
+        .scaleTime()
+        .domain(d3.extent(dataMapped, (d) => d.time))
+        .range([0, width - margin.left - margin.right]);
+
+      var yScale = d3
+        .scalePoint()
+        .domain(dataMapped.map((d) => d.path))
+        .range([height - margin.top - margin.bottom, 0]);
+
+      svg
+        .append("g")
+        .attr(
+          "transform",
+          "translate(0," + (height - margin.top - margin.bottom) + ")"
+        )
+        .call(d3.axisBottom(xScale));
+
+      svg.append("g").call(d3.axisLeft(yScale).tickSize(0));
+
+      var tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+      svg
+        .selectAll(".dot")
+        .data(dataMapped)
+        .join("circle")
+        .attr("class", "dot")
+        .attr("cx", (d) => xScale(d.time))
+        .attr("cy", (d) => yScale(d.path))
+        .attr("r", 5)
+        .on("mouseover", (event, d) => {
+          tooltip.transition().duration(200).style("opacity", 0.9);
+          tooltip
+            .html(d.path)
+            .style("left", event.pageX + "px")
+            .style("top", event.pageY - 28 + "px");
+        })
+        .on("mouseout", (d) => {
+          tooltip.transition().duration(500).style("opacity", 0);
+        });
+    </script>
+  </body>
+</html>
