@@ -1,13 +1,13 @@
 // query{
-//   user {
-//     timeline: transactions(
-//       where: {type: {_eq: "xp"}, _or: [{attrs: {_eq: {}}}, {attrs: {_has_key: "group"}}], _and: [{path: {_nlike: "%/piscine-js/%"}}, {path: {_nlike: "%/piscine-go/%"}}]}
-//     ) {
-//       amount
-//       createdAt
-//       path
-//     }
+// user {
+//   timeline: transactions(
+//     where: {type: {_eq: "xp"}, _or: [{attrs: {_eq: {}}}, {attrs: {_has_key: "group"}}], _and: [{path: {_nlike: "%/piscine-js/%"}}, {path: {_nlike: "%/piscine-go/%"}}]}
+//   ) {
+//     amount
+//     createdAt
+//     path
 //   }
+// }
 // }
 
 const data = {
