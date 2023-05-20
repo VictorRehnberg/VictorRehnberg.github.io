@@ -2,16 +2,31 @@
 <html>
   <head>
     <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+
       .tooltip {
         position: absolute;
         text-align: center;
         padding: 10px;
-        font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 12px;
         background: #f8f8f8;
         border: 1px solid #ccc;
         border-radius: 4px;
         pointer-events: none;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      svg {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .dot {
+        fill: #3366cc;
+        stroke: #fff;
+        stroke-width: 2px;
       }
     </style>
   </head>
@@ -171,8 +186,7 @@
 
       // Append the SVG object to the body
       const svg = d3
-        .select("body")
-        .append("svg")
+        .select("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -184,7 +198,7 @@
       // Add the X Axis
       svg
         .append("g")
-        .attr("transform", "translate(0," + height + ")")
+        .attr("transform", `translate(0, ${height})`)
         .call(
           d3
             .axisBottom(x)
@@ -201,10 +215,11 @@
 
       // Add the dots
       svg
-        .selectAll("dot")
+        .selectAll(".dot")
         .data(data.data.user[0].timeline)
         .enter()
         .append("circle")
+        .attr("class", "dot")
         .attr("r", 5)
         .attr("cx", (d) => x(new Date(d.createdAt)))
         .attr("cy", height)
@@ -212,10 +227,9 @@
           tooltip.transition().duration(200).style("opacity", 0.9);
           tooltip
             .html(
-              `${d3.timeFormat("%B %d, %Y")(
-                new Date(d.createdAt)
-                // the name of the project is the last part of the path after the last slash
-              )}<br/>${d.path.split("/").pop()}<br/>${d.amount} XP`
+              `${d3.timeFormat("%B %d, %Y")(new Date(d.createdAt))}<br/>${d.path
+                .split("/")
+                .pop()}<br/>${d.amount} XP`
             )
             .style("left", event.pageX + "px")
             .style("top", event.pageY - 28 + "px");
