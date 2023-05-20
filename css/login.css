@@ -2,12 +2,31 @@
 
 body {
   font-family: Graphik-Medium, sans-serif;
-  /* background: linear-gradient(180deg, #797979, #707070); */
-  background: #ebebeb;
+
+  /* use a img as background */
+  background-image: url("../flat/back.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  /* center the image */
+
+  align-items: center;
+  /* center items in the middle */
+  display: flex;
+  /* flexbox all the way */
+  justify-content: center;
+  /* center items horizontally, in this case */
+  min-height: 100vh;
+  /* make sure it's at least as tall as the viewport */
+  margin: 0;
+  /* no body margin */
+  padding: 0;
+  /* no body padding */
 }
 
 .auth-form {
   max-width: 500px;
+  width: 100%;
   margin: 0 auto;
   background-color: #ffffff;
   padding: 40px;
