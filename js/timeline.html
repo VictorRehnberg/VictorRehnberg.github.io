@@ -4,6 +4,8 @@
     <style>
       body {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        padding: 2rem;
+        background-color: #f8f8f8;
       }
 
       .tooltip {
@@ -16,21 +18,34 @@
         border-radius: 4px;
         pointer-events: none;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s;
+        /* Updated positioning */
+        transform: translate(-50%, -100%);
       }
 
       svg {
         display: block;
         margin: 0 auto;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
       }
 
       .dot {
-        fill: #3366cc;
         stroke: #fff;
         stroke-width: 2px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 2rem;
       }
     </style>
   </head>
   <body>
+    <h1>User Timeline Chart</h1>
     <svg></svg>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
@@ -159,6 +174,7 @@
           ],
         },
       };
+
       data.data.user[0].timeline.sort(
         (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
       );
@@ -203,7 +219,9 @@
         .select("body")
         .append("div")
         .attr("class", "tooltip")
-        .style("opacity", 0);
+        .style("opacity", 0)
+        .style("left", "50%") // Set initial left position
+        .style("top", "0"); // Set initial top position
 
       const mergeOverlappingDots = (data) => {
         let mergedData = [];
@@ -230,6 +248,11 @@
 
       const mergedData = mergeOverlappingDots(data.data.user[0].timeline);
 
+      const colorScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(data.data.user[0].timeline, (d) => d.amount)])
+        .range(["#3366cc", "#cc3366"]);
+
       svg
         .selectAll(".dot")
         .data(mergedData)
@@ -239,6 +262,7 @@
         .attr("r", (d) => 5)
         .attr("cx", (d) => x(new Date(d[0].createdAt)))
         .attr("cy", height)
+        .attr("fill", (d) => colorScale(d[0].amount)) // Fill dots with color based on amount
         .on("mouseover", function (event, d) {
           tooltip.transition().duration(200).style("opacity", 0.9);
 
