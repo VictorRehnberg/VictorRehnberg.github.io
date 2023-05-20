@@ -159,12 +159,10 @@
           ],
         },
       };
-      // Sort the data
       data.data.user[0].timeline.sort(
         (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
       );
 
-      // Extract the start and end dates
       const startDate = new Date(data.data.user[0].timeline[0].createdAt);
       const endDate = new Date(
         data.data.user[0].timeline[
@@ -172,19 +170,16 @@
         ].createdAt
       );
 
-      // Adjust the start and end dates to the start of their respective months
       startDate.setDate(1);
       startDate.setHours(0, 0, 0, 0);
       endDate.setDate(1);
       endDate.setMonth(endDate.getMonth() + 1);
       endDate.setHours(0, 0, 0, 0);
 
-      // Set dimensions and margins
       const margin = { top: 10, right: 30, bottom: 30, left: 60 },
         width = 800 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
-      // Append the SVG object to the body
       const svg = d3
         .select("svg")
         .attr("width", width + margin.left + margin.right)
@@ -192,10 +187,8 @@
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      // Create a time scale
       const x = d3.scaleTime().domain([startDate, endDate]).range([0, width]);
 
-      // Add the X Axis
       svg
         .append("g")
         .attr("transform", `translate(0, ${height})`)
@@ -206,34 +199,77 @@
             .tickFormat(d3.timeFormat("%B"))
         );
 
-      // Create a tooltip div
       const tooltip = d3
         .select("body")
         .append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-      // Add the dots
+      const mergeOverlappingDots = (data) => {
+        let mergedData = [];
+        let tempData = [];
+
+        data.forEach((item, i) => {
+          if (i === 0) {
+            tempData.push(item);
+          } else if (
+            Math.abs(
+              x(new Date(data[i - 1].createdAt)) - x(new Date(item.createdAt))
+            ) < 6
+          ) {
+            tempData.push(item);
+          } else {
+            mergedData.push(tempData);
+            tempData = [item];
+          }
+        });
+
+        mergedData.push(tempData);
+        return mergedData;
+      };
+
+      const mergedData = mergeOverlappingDots(data.data.user[0].timeline);
+
       svg
         .selectAll(".dot")
-        .data(data.data.user[0].timeline)
+        .data(mergedData)
         .enter()
         .append("circle")
         .attr("class", "dot")
-        .attr("r", 5)
-        .attr("cx", (d) => x(new Date(d.createdAt)))
+        .attr("r", (d) => 5)
+        .attr("cx", (d) => x(new Date(d[0].createdAt)))
         .attr("cy", height)
         .on("mouseover", function (event, d) {
           tooltip.transition().duration(200).style("opacity", 0.9);
+
+          let tooltipHtml = "";
+
+          // Group projects by date
+          let dateGroupedProjects = d.reduce((group, project) => {
+            let date = d3.timeFormat("%B %d, %Y")(new Date(project.createdAt));
+            if (!group[date]) group[date] = [];
+            group[date].push(project);
+            return group;
+          }, {});
+
+          // Generate tooltip HTML
+          for (let date in dateGroupedProjects) {
+            tooltipHtml += `${date}<br/>`;
+            tooltipHtml += dateGroupedProjects[date]
+              .map(
+                (project) =>
+                  `${project.path.split("/").pop()}<br/>${project.amount} XP`
+              )
+              .join("<br/><br/>");
+            tooltipHtml += "<br/><br/>";
+          }
+
           tooltip
-            .html(
-              `${d3.timeFormat("%B %d, %Y")(new Date(d.createdAt))}<br/>${d.path
-                .split("/")
-                .pop()}<br/>${d.amount} XP`
-            )
+            .html(tooltipHtml)
             .style("left", event.pageX + "px")
             .style("top", event.pageY - 28 + "px");
         })
+
         .on("mouseout", function (d) {
           tooltip.transition().duration(500).style("opacity", 0);
         });
