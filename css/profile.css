@@ -5,11 +5,16 @@ body {
   line-height: 1.6;
   margin: 0;
   padding: 0;
+  font-size: 1.6rem;
   background: #ebebeb;
+  background-image: url("../flat/mosaic.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 header {
-  background-color: #333;
+  background-color: #161616b7;
   color: #ffffff;
   text-align: center;
   padding: 1rem;
@@ -42,9 +47,10 @@ button {
   color: #fff;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.8rem;
   margin-right: 1rem;
   border-radius: 5px;
+  font-size: large;
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -57,6 +63,10 @@ main {
   flex-direction: column;
   align-items: center;
   padding: 2rem;
+}
+
+#text-info {
+  padding: 40px;
 }
 
 .profile-info,
@@ -83,16 +93,37 @@ main {
 
 .profile-info {
   position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.user-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .user-image {
-  position: absolute;
-  top: 50%;
-  right: 10%;
-  transform: translateY(-50%);
-  width: 25%;
+  max-width: 100%;
+  height: auto;
   border-radius: 5px;
-  object-fit: cover;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-info {
+    flex-direction: column;
+  }
+
+  .user-image-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .user-image {
+    max-width: 90%;
+  }
 }
 
 .xp-widget {
@@ -183,20 +214,13 @@ main {
 }
 #timeline-container {
   width: 100%;
-  /* max-height: 100px; */
-  /* max-width: 400px; */
-  /* margin: 0 auto; */
+  text-align: center;
   font-family: "Roboto", sans-serif;
-  overflow: auto;
   border-radius: 8px;
-  /* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); */
 }
 #timeline {
   display: block;
   margin: 0 auto;
-  /* background-color: #fff; */
-  /* border-radius: 8px; */
-  padding: 1rem;
 }
 
 .dot {

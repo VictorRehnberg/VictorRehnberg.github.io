@@ -82,21 +82,16 @@ async function fetchData() {
     // get the size of the timeline-container
     const timelineContainer = document.getElementById("timeline-container");
 
-    // call the createTimeline function with the width and height of the timeline-container and update it if the window is resized and remove the old timeline
+    // create the timeline
     createTimeline(
       timelineContainer.offsetWidth,
       timelineContainer.offsetHeight,
       data
     );
+    //  if the window is resized, re-create the timeline
+    const firstHeight = timelineContainer.offsetHeight;
     window.addEventListener("resize", () => {
-      timelineContainer.removeChild(timelineContainer.lastChild);
-      // make a new svg element and with the id timeline and append it to the timeline-container
-
-      createTimeline(
-        timelineContainer.offsetWidth,
-        timelineContainer.offsetHeight,
-        data
-      );
+      createTimeline(timelineContainer.offsetWidth, firstHeight, data);
     });
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -104,27 +99,29 @@ async function fetchData() {
 }
 
 function createTimeline(thicc, smoll, data) {
-  // check if the svg element already is populated with data and remove it if it is and make sure to remove the tooltip as well and make sure it does not grow in size when the window is resized
-
+  // remove the previous timeline
+  d3.select("#timeline").selectAll("*").remove();
   d3.select(".tooltip").remove();
-  // sort the timeline data by date
 
+  // sort the timeline data by date
   data.data.user[0].timeline.sort(
     (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
   );
-
+  // get the start and end date of the timeline
   const startDate = new Date(data.data.user[0].timeline[0].createdAt);
   const endDate = new Date(
     data.data.user[0].timeline[data.data.user[0].timeline.length - 1].createdAt
   );
 
+  // set the start and end date to the first and last day of the month in order to get the correct width of the timeline
   startDate.setDate(1);
   startDate.setHours(0, 0, 0, 0);
   endDate.setDate(1);
   endDate.setMonth(endDate.getMonth() + 1);
   endDate.setHours(0, 0, 0, 0);
 
-  const margin = { top: 10, right: 30, bottom: 30, left: 60 },
+  // set the margins and width and height of the timeline
+  const margin = { top: 10, right: 40, bottom: 30, left: 40 },
     width = thicc - margin.left - margin.right - 100,
     height = smoll - margin.top - margin.bottom - 40;
 
@@ -137,7 +134,7 @@ function createTimeline(thicc, smoll, data) {
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
   const x = d3.scaleTime().domain([startDate, endDate]).range([0, width]);
-  if (thicc < 800 && thicc >= 600) {
+  if (thicc < 800 && thicc > 600) {
     svg
       .append("g")
       .attr("transform", `translate(0, ${height})`)
@@ -147,7 +144,7 @@ function createTimeline(thicc, smoll, data) {
           .ticks(d3.timeMonth.every(1))
           .tickFormat(d3.timeFormat("%b %Y"))
       );
-  } else if (thicc < 600 && thicc > 400) {
+  } else if (thicc < 600 && thicc >= 500) {
     svg
       .append("g")
       .attr("transform", `translate(0, ${height})`)
@@ -157,7 +154,7 @@ function createTimeline(thicc, smoll, data) {
           .ticks(d3.timeMonth.every(1))
           .tickFormat(d3.timeFormat("%b %y"))
       );
-  } else if (thicc <= 400) {
+  } else if (thicc < 500 && thicc > 0) {
     svg
       .append("g")
       .attr("transform", `translate(0, ${height})`)
