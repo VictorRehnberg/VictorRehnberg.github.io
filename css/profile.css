@@ -71,6 +71,8 @@ main {
 }
 
 .profile-info,
+.profile2,
+.profile3,
 .statistics {
   background-color: #f4f4f4;
   border-radius: 5px;
@@ -79,6 +81,14 @@ main {
   padding: 1rem;
   width: 80%;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.profile2 h2{
+  text-align: center;
+}
+
+.profile3 h2{
+  text-align: center;
 }
 
 .statistics {
@@ -100,7 +110,6 @@ main {
 }
 
 .user-image-container {
-  border: #4a4a4a 1px solid;
   display: flex;
   justify-content: center;
   align-items: center;

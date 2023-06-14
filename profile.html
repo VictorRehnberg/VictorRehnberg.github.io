@@ -23,9 +23,15 @@
       </nav>
     </header>
     <main>
-      <section class="profile-info">
+      <section class="profile2">
+        <h2>Your Avatar</h2>
         <div class="user-image-container">
           <img alt="User Image" class="user-image" />
+        </div>
+      </section>
+      <section class="profile-info">
+        <div class="user-image-container">
+          <h2>Your Info</h2>
         </div>
         <div id="text-info">
           <h2 id="first-name-last-name">Name</h2>
@@ -33,11 +39,18 @@
           <p id="from">From</p>
           <p id="phone">Phone</p>
           <p id="email">Email</p>
+        </div>
+      </section>
+      
+      <section class="profile3">
+        <h2>Your XP</h2>
+        <div id="text-info">
           <p id="total-xp">total xp</p>
         </div>
       </section>
       <section class="statistics">
         <h2>Statistics</h2>
+        <h2>XP INFO:</h2>
         <div class="xp-widget">
           <div class="xp-container">
             <div class="xp-ratio-display" id="xpRatio"></div>
@@ -75,6 +88,7 @@
             </div>
           </div>
         </div>
+        <h2>XP TIMELINE:</h2>
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <div id="timeline-container">
           <svg id="timeline"></svg>
