@@ -1,12 +1,12 @@
 function logout() {
   localStorage.removeItem("jwt");
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 }
 
 async function fetchData() {
   const jwt = localStorage.getItem("jwt");
   if (!jwt) {
-    window.location.href = "/login.html";
+    window.location.href = "/index.html";
     return;
   }
 
