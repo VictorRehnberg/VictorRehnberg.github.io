@@ -362,7 +362,7 @@ function convertToByteUnits(num) {
     i++;
   }
   // remove decimals and round up to nearest integer
-  if (units[i] === "MB") {
+  if (units[i] != "kB") {
     num = num.toFixed(2)
   } else {
     num = Math.round(num);
